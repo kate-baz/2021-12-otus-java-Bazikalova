@@ -1,5 +1,7 @@
-# 2021-12-otus-java-Bazikalova
+# Домашние работы для курса OTUS ["Разработчик Java"](https://otus.ru/lessons/java-professional/?utm_source=github&utm_medium=free&utm_campaign=otus)
 
 Базикалова Екатерина Владимировна
-Java Developer. Professional
-Группа 12-2021
+
+Группа 2021-12
+
+ДЗ №1. Проект gradle с модульной структурой
