@@ -28,11 +28,12 @@ public class MyJUnit {
         TestMethods methods = getAnnotatedMethods(clazz);
         int succeedTestsCount = 0;
         int failedTestsCount = 0;
-        Object obj = createClazzInstance(clazz);
-        if (obj == null) {
-            throw new RuntimeException("Object not created.");
-        }
+
         for (Method testMethod : methods.getTestMethods()) {
+            Object obj = createClazzInstance(clazz);
+            if (obj == null) {
+                throw new RuntimeException("Object not created.");
+            }
             System.out.println("Starting testing method" + testMethod.getName() + "...");
             try {
                 boolean beforeTestsSuccessful = runBeforeMethods(methods, obj);
