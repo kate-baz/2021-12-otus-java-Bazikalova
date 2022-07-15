@@ -10,7 +10,7 @@ public class ClassForTesting {
     @Before
     public void beforeMethodTwo() {
         System.out.println("Failing @Before method");
-        throw new RuntimeException();
+        //throw new RuntimeException();
     }
 
     @Test
