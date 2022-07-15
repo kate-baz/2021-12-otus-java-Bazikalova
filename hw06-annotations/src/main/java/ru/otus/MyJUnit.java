@@ -1,34 +1,32 @@
 package ru.otus;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class MyJUnit {
-    private static List<Method> beforeTests = new ArrayList<>();
-    private static List<Method> afterTests = new ArrayList<>();
-    private static List<Method> testMethods = new ArrayList<>();
-    private static int failedTestsCount;
-    private static int succeedTestsCount;
 
-    private static void getAnnotatedMethods(Class clazz) {
+    private TestMethods getAnnotatedMethods(Class clazz) {
+        TestMethods methods = new TestMethods();
         for (Method m : clazz.getDeclaredMethods()) {
             if (m.isAnnotationPresent(Before.class))
-                beforeTests.add(m);
+                methods.addBeforeMethod(m);
             if (m.isAnnotationPresent(After.class))
-                afterTests.add(m);
+                methods.addAfterMethod(m);
             if (m.isAnnotationPresent(Test.class))
-                testMethods.add(m);
+                methods.addTestMethod(m);
         }
+        return methods;
     }
 
     public void runTests(Class clazz) {
-        getAnnotatedMethods(clazz);
-        for (Method eachTestMethod : testMethods) {
+        TestMethods methods = getAnnotatedMethods(clazz);
+        int succeedTestsCount = 0;
+        int failedTestsCount = 0;
+        for (Method eachTestMethod : methods.getTestMethods()) {
             System.out.println("Starting testing method" + eachTestMethod.getName() + "...");
             try {
                 Object obj = clazz.getConstructor().newInstance();
-                for (Method eachBeforeMethod : beforeTests) {
+                for (Method eachBeforeMethod : methods.getBeforeMethods()) {
                     try {
                         eachBeforeMethod.setAccessible(true);
                         eachBeforeMethod.invoke(obj, null);
@@ -41,7 +39,7 @@ public class MyJUnit {
                 eachTestMethod.invoke(obj, null);
                 System.out.println("Testing of method " + eachTestMethod.getName() + " finished successfully!");
                 succeedTestsCount++;
-                for (Method eachAfterMethod : afterTests) {
+                for (Method eachAfterMethod : methods.getAfterMethods()) {
                     try {
                         eachAfterMethod.setAccessible(true);
                         eachAfterMethod.invoke(obj, null);
@@ -56,13 +54,13 @@ public class MyJUnit {
                 System.out.println("Test of " + eachTestMethod.getName() + " FAILED");
             }
         }
-        printStatistics();
+        printStatistics(methods, succeedTestsCount, failedTestsCount);
     }
 
-    private static void printStatistics() {
+    private void printStatistics(TestMethods methods, int succeedTestsCount, int failedTestsCount) {
         System.out.println("-----------------------------------------");
         System.out.println("TESTING RESULTS:");
-        System.out.println("Total tests done: " + testMethods.size());
+        System.out.println("Total tests done: " + methods.getTestMethods().size());
         System.out.println("Successful tests: " + succeedTestsCount);
         System.out.println("Failed tests: " + failedTestsCount);
     }
