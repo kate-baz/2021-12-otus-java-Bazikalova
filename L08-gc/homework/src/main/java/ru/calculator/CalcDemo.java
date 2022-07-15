@@ -12,22 +12,39 @@ package ru.calculator;
 
 /*
 Before optimisation:
-spend msec:13558, sec:13 - 1g
-spend msec:14294, sec:14 - 2g
-spend msec:13096, sec:13 - 3g
-spend msec:14570, sec:14 - 4g
-spend msec:13707, sec:13 - 5g
+spend msec:17431, sec:17 - 64m
+spend msec:17111, sec:17 - 128m
+spend msec:10057, sec:10 - 256m - optimal heap size
+spend msec:10147, sec:10 - 512m
+spend msec:10008, sec:10 - 1g
+spend msec:10109, sec:10 - 2g
 
-After optimisation:
-spend msec:2493, sec:2 - 64m
-spend msec:2244, sec:2 - 128m
-spend msec:2297, sec:2 - 256m
+After optimisation-2:
+spend msec:997, sec:0 - 32m
+spend msec:609, sec:0 - 64m - optimal heap size
+spend msec:598, sec:0 - 128m
+spend msec:615, sec:0 - 256m
+spend msec:606, sec:0 - 1024m
+spend msec:1207, sec:1 - 2048m
  */
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class CalcDemo {
     public static void main(String[] args) {
+        var results = new ArrayList<Long>();
+        for (int i = 0; i<15; i++) {
+            results.add(runMeasuring());
+        }
+        var sum = 0;
+        for (Long delta: results) {
+            sum += delta;
+        }
+        System.out.println("AVR MS= " + sum/results.size());
+    }
+
+    private static long runMeasuring() {
         long counter = 100_000_000;
         var summator = new Summator();
         long startTime = System.currentTimeMillis();
@@ -49,5 +66,6 @@ public class CalcDemo {
         System.out.println(summator.getSomeValue());
         System.out.println(summator.getSum());
         System.out.println("spend msec:" + delta + ", sec:" + (delta / 1000));
+        return delta;
     }
 }
