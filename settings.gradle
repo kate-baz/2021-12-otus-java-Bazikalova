@@ -2,6 +2,8 @@ rootProject.name = 'otusJava'
 include 'L01-gradle'
 include 'hw01-gradle'
 include 'hw06-annotations'
+include 'hw10-byteCodes'
+include 'hw12-atm'
 
 include 'L02-gradle2'
 include 'L02-gradle2-libApi'
