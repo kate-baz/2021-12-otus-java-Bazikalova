@@ -157,7 +157,7 @@ public class Message {
         }
 
         private Builder(long id, String field1, String field2, String field3, String field4, String field5,
-                        String field6, String field7, String field8, String field9, String field10,String field11,
+                        String field6, String field7, String field8, String field9, String field10, String field11,
                         String field12, ObjectForMessage field13) {
             this.id = id;
             this.field1 = field1;
@@ -236,9 +236,7 @@ public class Message {
         }
 
         public Builder field13(ObjectForMessage field13) {
-            ObjectForMessage newObj = new ObjectForMessage();
-            newObj.setData(new ArrayList<>(field13.getData()));
-            this.field13 = newObj;
+            this.field13 = field13;
             return this;
         }
 

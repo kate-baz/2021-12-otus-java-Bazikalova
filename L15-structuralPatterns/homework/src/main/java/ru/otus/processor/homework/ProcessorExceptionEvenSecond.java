@@ -5,11 +5,17 @@ import ru.otus.processor.Processor;
 
 import java.time.LocalDateTime;
 
-public class ProcessorExceptionEachEvenSecond implements Processor {
+public class ProcessorExceptionEvenSecond implements Processor {
+
+    private DateTimeProvider dateTimeProvider;
+
+    public ProcessorExceptionEvenSecond(DateTimeProvider dateTimeProvider) {
+        this.dateTimeProvider = dateTimeProvider;
+    }
+
     @Override
     public Message process(Message message) {
-        var nowSecond = LocalDateTime.now().getSecond();
-        System.out.println("Current second: " + nowSecond);
+        var nowSecond = dateTimeProvider.getDate().getSecond();
         if (nowSecond % 2 == 0) {
             throw new RuntimeException("Even second.");
         }

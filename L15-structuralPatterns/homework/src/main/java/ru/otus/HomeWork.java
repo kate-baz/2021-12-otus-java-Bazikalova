@@ -3,9 +3,10 @@ package ru.otus;
 import ru.otus.handler.ComplexProcessor;
 import ru.otus.listener.ListenerPrinterConsole;
 import ru.otus.model.Message;
-import ru.otus.processor.homework.ProcessorExceptionEachEvenSecond;
+import ru.otus.processor.homework.ProcessorExceptionEvenSecond;
 import ru.otus.processor.homework.ProcessorSwitch11and12;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class HomeWork {
@@ -28,7 +29,7 @@ public class HomeWork {
            по аналогии с Demo.class
            из элеменов "to do" создать new ComplexProcessor и обработать сообщение
          */
-        var processors = List.of(new ProcessorSwitch11and12(), new ProcessorExceptionEachEvenSecond());
+        var processors = List.of(new ProcessorSwitch11and12(), new ProcessorExceptionEvenSecond(LocalDateTime::now));
         var complexProcessor = new ComplexProcessor(processors, ex -> System.out.println("Exception caught"));
         var listenerPrinter = new ListenerPrinterConsole();
         complexProcessor.addListener(listenerPrinter);
